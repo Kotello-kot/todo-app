@@ -1,16 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
     <title>ToDo App</title>
+    <link rel="stylesheet" href="./src/style.css">
+    <style>
+      /* Дополнительные стили для крестика */
+      .delete-btn {
+        float: right;
+        margin-right: 5px;
+        color: #000000;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      /* Стили для элементов списка, чтобы они выглядели лучше */
+      #taskList li {
+        list-style-type: none;
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        position: relative;
+      }
+    </style>
   </head>
   <body>
-    <h1>Мой ToDo список</h1>
-    <input id="taskInput" type="text" placeholder="Введите задачу" />
-    <button id="addBtn">Добавить</button>
-    <ul id="taskList"></ul>
-
-    <script type="module" src="/main.js"></script>
+    <div class="container">
+      <div class="todo-app">
+        <h2>To-Do List <img src="images/icon.jpg"></h2>
+        <div class="row">
+          <input type="text" id="taskInput" placeholder="Add your text">
+          <button id="addBtn">Add</button>
+        </div>
+        <ul id="taskList">
+          <!-- Tasks will appear here -->
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Встроенный JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('taskInput');
+        const button = document.getElementById('addBtn');
+        const list = document.getElementById('taskList');
+        
+        if (button) {
+          button.addEventListener('click', function() {
+            addTask();
+          });
+          
+          // Добавляем возможность добавлять задачи по нажатию Enter
+          input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              addTask();
+            }
+          });
+        }
+        
+        function addTask() {
+          const task = input.value.trim();
+          if (task === '') return;
+          
+          const li = document.createElement('li');
+          li.textContent = task;
+          
+          // Создаем крестик для удаления
+          const deleteBtn = document.createElement('span');
+          deleteBtn.textContent = '×'; // Unicode символ крестика (×)
+          deleteBtn.className = 'delete-btn';
+          
+          // Добавляем обработчик для удаления
+          deleteBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Предотвращаем срабатывание клика на li
+            li.remove();
+            saveToLocalStorage();
+          });
+          
+          // Добавляем обработчик для отметки выполнения
+          li.addEventListener('click', function() {
+            this.classList.toggle('checked');
+            saveToLocalStorage();
+          });
+          
+          // Добавляем крестик к li
+          li.appendChild(deleteBtn);
+          
+          // Добавляем li в список
+          list.appendChild(li);
+          
+          // Очищаем поле ввода
+          input.value = '';
+          
+          // Сохраняем в localStorage
+          saveToLocalStorage();
+        }
+        
+        // Функция для сохранения задач в localStorage
+        function saveToLocalStorage() {
+          localStorage.setItem('tasks', list.innerHTML);
+        }
+        
+        // Загружаем задачи из localStorage при загрузке страницы
+        function loadFromLocalStorage() {
+          const savedTasks = localStorage.getItem('tasks');
+          if (savedTasks) {
+            list.innerHTML = savedTasks;
+            
+            // Назначаем обработчики для кнопок удаления
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.parentElement.remove();
+                saveToLocalStorage();
+              });
+            });
+            
+            // Назначаем обработчики для элементов списка
+            document.querySelectorAll('#taskList li').forEach(item => {
+              item.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                saveToLocalStorage();
+              });
+            });
+          }
+        }
+        
+        // Загружаем задачи при загрузке страницы
+        loadFromLocalStorage();
+      });
+    </script>
   </body>
 </html>
-<link rel="stylesheet" href="/style.css" />

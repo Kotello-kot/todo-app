@@ -1,23 +1,130 @@
-body {
-  font-family: sans-serif;
-  padding: 20px;
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
-
-input {
-  padding: 5px;
+.container{
+width: 100%;
+min-height: 100vh;
+background: linear-gradient(135deg, #153677, #4e085f);
+padding: 10px;
 }
-
-button {
-  margin-left: 5px;
-  padding: 5px 10px;
+.todo-app{
+  width: 100%;
+  max-width: 540px;
+  background: #fff;
+  margin: 100px auto 20px;
+  padding: 40px 30px 70px;
+  border-radius: 10px;
+}c
+todo-app h2{
+  color: #002765;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
-
-li {
-  margin-top: 10px;
+.todo-app h2 img{
+  width: 30px;
+  margin-left: 10px;
+}
+.row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #edeef0;
+  border-radius: 30px;
+  padding-left: 20px;
+  border-bottom: 25px;
+}
+input{
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  font-weight: 14px;
+}
+button{
+  border: none;
+  outline: none;
+  padding: 16px 50px;
+  background: #e46b08;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 40px;
+}
+ul li{
+  list-style: none;
+  font-size: 17px;
+  padding: 12px 8px 12px 50px;
+  user-select: none;
   cursor: pointer;
 }
-
-.done {
+ul li::before{
+  content: '';
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background-image: url(images\unchecked.png);
+  background-size: cover;
+  background-position: center;
+  top: 12px;
+  left: 8px;
+}
+ul li.checked{
+  color: #555;
   text-decoration: line-through;
-  color: gray;
+}
+ul li.checked::before{
+  background-image:url(C:\Users\Administrator\Desktop\конец\images\unchecked.png) ;
+}
+ul li span{
+  position: absolute;
+  right: 0;
+  top: 5px;
+  width: 40px; 
+  height: 40px; 
+  font-size: 22px;
+  color: #555;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+}
+ul li span:hover{
+  background: #edeef0;
+}
+/* Стили для крестика удаления */
+.delete-btn {
+  color: #000; /* Черный цвет */
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5px; /* Меньшее поле вокруг крестика */
+  font-size: 16px; /* Регулируем размер шрифта */
+  margin-left: auto; /* Прижимает крестик к правому краю */
+}
+
+/* Стили для элементов списка задач */
+#taskList li {
+  list-style-type: none;
+  padding: 10 px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  display: flex; /* Используем flex для расположения элементов */
+  align-items: center;
+  width: 100%;
+}
+
+/* Контейнер для текста задачи */
+.task-text {
+  flex: 1; /* Занимает все доступное пространство кроме пространства для крестика */
+  text-align: left; /* Выравнивание текста по левому краю */
+  padding-right: 10px; /* Отступ от текста до крестика */
+}
+
+/* Стиль для отмеченных (выполненных) задач */
+#taskList li.checked {
+  text-decoration: line-through;
+  color: #555;
 }
